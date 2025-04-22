@@ -1,4 +1,4 @@
-import { z } from "zod";
+import { z } from 'zod';
 
 const search = z.object({
   id: z.number(),
@@ -7,10 +7,11 @@ const search = z.object({
   country: z.string(),
   lat: z.number(),
   lon: z.number(),
-  url: z.string(),
+  url: z.string()
 })
 
 export const searchSchema = z.array(
   search
 )
 
+export type SearchResult = z.infer<typeof searchSchema>;

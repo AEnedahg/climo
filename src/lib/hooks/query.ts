@@ -1,25 +1,23 @@
 import { useQuery } from '@tanstack/react-query';
-import { currentAPI, forcastAPI, searchAPI } from '../api/api';
+import { currentAPI, forecastAPI, searchAPI } from '../api/api';
 
-export const searchQueryFunc = (location: string) => {
+export const searchQueryFunc = (location: string, region: string, country: string) => {
   return useQuery({
-    queryKey: ["search", location],
-    queryFn: () => (location ? searchAPI(location) : null),
-    enabled: !!location,
-    staleTime: 5 * 60 * 1000,
+    queryKey: ["search", location, region, country],
+    queryFn: () => (searchAPI(location, region, country)),
   });
 }
 
-export const forcastQueryFunc = (location: string, days: number) => {
+export const forecastQueryFunc = (location: string, region: string, country: string, day: string) => {
   return useQuery({
-    queryKey: ['forcast', location, days],
-    queryFn: () => forcastAPI(location, days),
+    queryKey: ['forcast', location, region, country, day],
+    queryFn: () => forecastAPI(location, region, country, day),
   })
 }
 
-export const currentQueryFunc = (location: string) => {
+export const currentQueryFunc = (location: string, region: string, country: string) => {
   return useQuery({
-    queryKey: ['current', location],
-    queryFn: () => currentAPI(location)
+    queryKey: ['current', location, region, country],
+    queryFn: () => currentAPI(location, region, country)
   })
 }

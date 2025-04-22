@@ -1,8 +1,7 @@
 import axios from "axios";
-import { z } from "zod";
-import { searchSchema } from "../schema/searchSchema";
-import { forecastSchema } from "../schema/forecastSchema";
-import { currentSchema } from "../schema/currentSchema";
+import { searchSchema, SearchResult } from "../schema/searchSchema";
+import { forecastSchema, ForecastWeather } from "../schema/forecastSchema";
+import { currentSchema, CurrentWeather } from "../schema/currentSchema";
 
 const BASE_URL = "http://api.weatherapi.com/v1/";
 const API_KEY = process.env.NEXT_PUBLIC_WEATHER_API_KEY;
@@ -14,64 +13,47 @@ const weatherClient = axios.create({
   },
 });
 
-const validateLocation = (location: string) => {
-  if (!location) {
-    console.error("Invalid location:", location);
-  } else if (location.trim() === "") {
-    searchAPI(location);
-  } else {
-    searchAPI(location)
-  }
+export const searchAPI = async (
+  location: string,
+  region: string,
+  country: string
+): Promise<SearchResult> => {
+  const q = `${location},${region},${country}`;
+
+  if (!location.trim()) throw new Error("Location cannot be empty");
+
+  const response = await weatherClient.get("search.json", {
+    params: { q },
+  });
+
+  return searchSchema.parse(response.data);
 };
 
-export const searchAPI = async (location: string) => {
-  validateLocation(location);
+export const currentAPI = async (
+  location: string,
+  region: string,
+  country: string
+): Promise<CurrentWeather> => {
+  const q = `${location},${region},${country}`;
 
-  try {
-    const res = await weatherClient.get("/search.json", {
-      params: { q: location },
-    });
-    console.log("Search API response:", res.data);
-    return searchSchema.parse(res.data);
-  } catch (error) {
-    console.error("Search API error:", error);
-    if (axios.isAxiosError(error)) {
-      console.error("Axios error response:", error.response);
-    }
-    throw new Error("Failed to fetch search results.");
-  }
+  const response = await weatherClient.get("current.json", {
+    params: { q },
+  });
+
+  return currentSchema.parse(response.data);
 };
 
-export const currentAPI = async (location: string) => {
-  validateLocation(location);
+export const forecastAPI = async (
+  location: string,
+  region: string,
+  country: string,
+  day: string
+): Promise<ForecastWeather> => {
+  const q = `${location},${region},${country}`;
 
-  try {
-    const res = await weatherClient.get("/current.json", {
-      params: { q: location },
-    });
-    return currentSchema.parse(res.data);
-  } catch (error) {
-    console.error("Current API error:", error);
-    if (axios.isAxiosError(error)) {
-      console.error("Axios error response:", error.response);
-    }
-    throw new Error("Failed to fetch current weather data.");
-  }
-};
+  const response = await weatherClient.get("forecast.json", {
+    params: { q, dt: day },
+  });
 
-export const forcastAPI = async (location: string, days: number) => {
-  validateLocation(location);
-
-  try {
-    const res = await weatherClient.get("/forecast.json", {
-      params: { q: location, days },
-    });
-    return forecastSchema.parse(res.data);
-  } catch (error) {
-    console.error("Forecast API error:", error);
-    if (axios.isAxiosError(error)) {
-      console.error("Axios error response:", error.response);
-    }
-    throw new Error("Failed to fetch forecast data.");
-  }
+  return forecastSchema.parse(response.data);
 };

@@ -32,4 +32,4 @@ export const currentSchema = z.object({
 });
 
 
-
+export type CurrentWeather = z.infer<typeof currentSchema>;
