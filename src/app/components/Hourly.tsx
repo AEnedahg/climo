@@ -102,7 +102,7 @@ function Hourly() {
               hour12: true,
             })}
           </p>
-          <img src={`https://${hour.condition.icon}`} alt={hour.condition.text} width={50} height={50}/>
+          <img src={hour.condition.icon} alt={hour.condition.text} width={50} height={50}/>
           <p className="text-xl text-white">{hour.temp_c}°</p>
         </div>
       ))}
