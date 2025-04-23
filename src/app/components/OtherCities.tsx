@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from "react";
 import axios from "axios";
+import Image from 'next/image'
 
 interface City {
   location: {
@@ -15,7 +16,7 @@ interface City {
   };
 }
 
-const cityList = ["Texas", "Dubai", "China",];
+const cityList = ["Texas", "Dubai", "China", "canada"];
 
 function OtherCities() {
   const [citiesData, setCitiesData] = useState<City[]>([]);
@@ -38,7 +39,7 @@ function OtherCities() {
         const data = responses.map((res) => res.data);
         setCitiesData(data);
         setLoading(false);
-      } catch (err: any) {
+      } catch (err) {
         console.error(err);
         setError("Failed to load city data.");
         setLoading(false);
@@ -52,20 +53,21 @@ function OtherCities() {
   if (error) return <div className="text-red-500">{error}</div>;
 
   return (
-    <div className="text-white p-4">
+    <div className="text-white p-4 mt-20">
       <h2 className="text-2xl mb-4">Other Cities</h2>
-      <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-4">
+      <div className="grid sm:grid-cols-2 lg:grid-cols-4 gap-4">
         {citiesData.map((city, index) => (
           <div
             key={index}
             className="bg-[#0E1421] p-4 rounded-lg shadow-md flex items-center space-x-4
-            lg:col-span-3
+            lg:col-span-2
             "
           >
-            <img
+            <Image
               src={`https:${city.current.condition.icon}`}
               alt={city.current.condition.text}
-              className="w-12 h-12"
+              width={50}
+              height={50}
             />
             <div>
               <p className="font-semibold">{city.location.name}</p>

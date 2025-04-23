@@ -4,6 +4,7 @@ import { useDebounce } from "../hooks/debounce";
 import { useSelector } from "react-redux";
 import { RootState } from "../../store";
 import Astro from "./Astro";
+import Image from 'next/image';
 
 interface HourlyResponse {
   location: {
@@ -42,18 +43,10 @@ interface HourlyResponse {
   };
 }
 
-const date = new Date();
-
-const formattedTime = date.toLocaleTimeString("en-US", {
-  hour: "numeric",
-  hour12: true,
-});
-
 function Hourly() {
   const selectedLocation = useSelector(
       (state: RootState) => state.search.search
     );
-    const unit = useSelector((state: RootState) => state.search.unit);
   
     const city = selectedLocation?.name || "";
     const country = selectedLocation?.country || "";
@@ -110,7 +103,7 @@ function Hourly() {
               hour12: true,
             })}
           </p>
-          <img src={hour.condition.icon} alt={hour.condition.text} />
+          <Image src={`https://${hour.condition.icon}`} alt={hour.condition.text} width={50} height={50}/>
           <p className="text-xl text-white">{hour.temp_c}°</p>
         </div>
       ))}

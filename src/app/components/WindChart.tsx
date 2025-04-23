@@ -14,20 +14,29 @@ import { useDebounce } from "../hooks/debounce";
 import { useSelector } from "react-redux";
 import { RootState } from "../../store";
 
+interface HourData {
+  time: string;
+  wind_degree: number;
+  wind_speed: number;
+}
+
+interface ForecastDay {
+  hour: HourData[];
+}
+
 interface WeatherAPIResponse {
   forecast: {
-    forecastday: Array<{
-      hour: Array<{
-        time: string;
-        wind_degree: number;
-        wind_speed: number;
-      }>;
-    }>;
+    forecastday: ForecastDay[];
   };
 }
 
+interface WindDataPoint {
+  time: string;
+  windDegree: number;
+}
+
 export default function WindChart() {
-  const [windData, setWindData] = useState<any[]>([]); // To store formatted wind data
+  const [windData, setWindData] = useState<WindDataPoint[]>([]);
   const selectedLocation = useSelector(
     (state: RootState) => state.search.search
   );
@@ -42,11 +51,14 @@ export default function WindChart() {
     isError,
   } = forecastQueryFunc<WeatherAPIResponse>(debouncedCity, debouncedCountry);
 
-  // Format the data for Recharts
   useEffect(() => {
-    if (weatherData) {
+    if (
+      weatherData &&
+      weatherData.forecast &&
+      weatherData.forecast.forecastday.length > 0
+    ) {
       const formattedData = weatherData.forecast.forecastday[0].hour.map(
-        (hourData: any) => ({
+        (hourData): WindDataPoint => ({
           time: hourData.time,
           windDegree: hourData.wind_degree,
         })
@@ -54,6 +66,7 @@ export default function WindChart() {
       setWindData(formattedData);
     }
   }, [weatherData]);
+
 
   if (isLoading) return <div className="text-white">Loading data...</div>;
   if (isError) return <div className="text-red-500">Error loading data</div>;

@@ -21,7 +21,6 @@ function Astro() {
   const selectedLocation = useSelector(
     (state: RootState) => state.search.search
   );
-  const unit = useSelector((state: RootState) => state.search.unit);
 
   const city = selectedLocation?.name || "";
   const country = selectedLocation?.country || "";
@@ -40,18 +39,20 @@ function Astro() {
 
   if (isError)
     return <div className="text-red-500">Error fetching forecast data.</div>;
-  
+
   const sunrise = weatherData?.forecast?.forecastday[0]?.astro.sunrise;
   const sunset = weatherData?.forecast?.forecastday[0]?.astro.sunset;
   const moonrise = weatherData?.forecast?.forecastday[0]?.astro.moonrise;
   const moonset = weatherData?.forecast?.forecastday[0]?.astro.moonset;
 
   return (
-    <div className="bg-[#14203A] flex flex-col lg:flex-row  lg:justify-between p-7
+    <div
+      className="bg-[#14203A] flex flex-col lg:flex-row  lg:justify-between p-7
      col-span-12 row-span-8 *:flex *:flex-col *:gap-y-4 *:items-center rounded-lg
     lg:row-span-3 
     
-    ">
+    "
+    >
       <div>
         <h3 className="text-gray-400 text-2xl">Sunrise</h3>
         <h1 className="text-white text-3xl">{sunrise}</h1>

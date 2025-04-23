@@ -1,7 +1,7 @@
 import { currentQueryFunc } from "@/lib/hooks/query";
 import React from "react";
 import { useDebounce } from "../hooks/debounce";
-import { useSelector, useDispatch } from "react-redux";
+import { useSelector } from "react-redux";
 import { RootState } from "../../store";
 import Image from "next/image";
 
@@ -46,9 +46,6 @@ function CandFValue() {
       ? weatherData?.current.feelslike_c
       : weatherData?.current.feelslike_f;
 
-  const conditionText = weatherData?.current.condition.text || "No data";
-  const conditionIcon = weatherData?.current.condition.icon || "";
-
   if (isLoading)
     return <div className="text-white">Loading weather data...</div>;
   if (isError)
@@ -67,7 +64,7 @@ export default CandFValue;
 
 // FeelsLike component with conditional rendering
 interface FeelsLikeProps {
-  feelsLikeTemp: number | undefined;
+  feelsLikeTemp: number | null;
   text: string;
 }
 
@@ -87,17 +84,16 @@ export const FeelsLike: React.FC<FeelsLikeProps> = ({
   );
 };
 
-interface WeatherIconProps {
+interface Props {
   icon: string;
 }
 
-export const Icon: React.FC<WeatherIconProps> = ({ icon }) => {
-  // If the icon path starts with '/', prepend 'https:'
-  const iconUrl = icon.startsWith("https") ? icon : `https:${icon}`;
+export function Icon({ icon }: Props) {
+  const iconUrl = icon.startsWith("http") ? icon : `https:${icon}`;
 
   return (
     <div>
       <Image src={iconUrl} alt="Weather Icon" width={165} height={165} />
     </div>
   );
-};
+}

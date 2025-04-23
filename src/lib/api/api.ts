@@ -15,10 +15,8 @@ const weatherClient = axios.create({
 
 export const searchAPI = async (
   location: string,
-  region: string,
-  country: string
 ): Promise<SearchResult> => {
-  const q = `${location},${region},${country}`;
+  const q = `${location}`;
 
   if (!location.trim()) throw new Error("Location cannot be empty");
 
@@ -31,10 +29,9 @@ export const searchAPI = async (
 
 export const currentAPI = async (
   location: string,
-  region: string,
   country: string
 ): Promise<CurrentWeather> => {
-  const q = `${location},${region},${country}`;
+  const q = `${location},${country}`;
 
   const response = await weatherClient.get("current.json", {
     params: { q },
@@ -46,13 +43,11 @@ export const currentAPI = async (
 export const forecastAPI = async (
   location: string,
   region: string,
-  country: string,
-  day: string
 ): Promise<ForecastWeather> => {
-  const q = `${location},${region},${country}`;
+  const q = `${location},${region}`;
 
   const response = await weatherClient.get("forecast.json", {
-    params: { q, dt: day },
+    params: { q, dt: location },
   });
 
   return forecastSchema.parse(response.data);

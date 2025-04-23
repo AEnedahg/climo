@@ -14,7 +14,6 @@ import { setFeelsLike } from "./features/searchSlice";
 import { Icon } from "./CandFValue";
 import Hourly from './Hourly';
 import WindChart from "./WindChart";
-import Astro from "./Astro";
 import OtherCities from "./OtherCities";
 interface WeatherAPIResponse {
   current: {
@@ -46,8 +45,6 @@ export default function ClimoClient() {
 
   const {
     data: weatherData,
-    isLoading,
-    isError,
   } = currentQueryFunc<WeatherAPIResponse>(debouncedCity, debouncedCountry);
 
   const conditionText = weatherData?.current.condition.text || "";

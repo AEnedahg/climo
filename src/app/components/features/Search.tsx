@@ -19,7 +19,7 @@ function Search() {
   const debouncedSearch = useDebounce(search, 500);
   const [selectedCity, setSelectedCity] = useState<City>({
     id: 0,
-    name: "Lagos",
+    name: search,
     country: "Nigeria",
   });
 
@@ -88,7 +88,7 @@ function Search() {
               key={city.id}
               className="py-1 border-b border-[#1e293b] last:border-b-0 cursor-pointer"
               onClick={() => {
-                setSelectedCity(city);
+                setSelectedCity(selectedCity);
                 setSearchInput(city.name);
                 dispatch(setSearch(city));
               }}
