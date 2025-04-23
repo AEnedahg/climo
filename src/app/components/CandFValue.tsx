@@ -83,11 +83,11 @@ export const FeelsLike: React.FC<FeelsLikeProps> = ({
 };
 
 interface Props {
-  icon: string | undefined;
+  iconUrl: string | undefined;
 }
 
-export function Icon({ icon }: Props) {
-  const iconUrl = icon?.startsWith("http") ? icon : `https:${icon}`;
+export function Icon({ iconUrl }: Props) {
+  
 
   return (
     <div>

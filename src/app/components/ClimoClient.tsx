@@ -82,12 +82,12 @@ export default function ClimoClient() {
           <div className="flex flex-col sm:flex-row sm:justify-between w-full items-center sm:items-start text-center sm:text-start">
             <div className="flex flex-col">
               <Day />
-              <Icon icon={weatherData?.current.condition.icon} />
+              <Icon iconUrl={weatherData?.current.condition.icon} />
               <CandFValue />
               <Maxandmintemp />
             </div>
             <div>
-              {conditionIcon && <Icon icon={conditionIcon} />}
+              {conditionIcon && <Icon iconUrl={conditionIcon} />}
               <FeelsLike feelsLikeTemp={feelsLikeTemp} text={conditionText} />
             </div>
           </div>
