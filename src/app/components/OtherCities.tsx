@@ -30,7 +30,7 @@ function OtherCities() {
           cityList.map((city) =>
             axios.get(`https://api.weatherapi.com/v1/current.json`, {
               params: {
-                key: process.env.NEXT_PUBLIC_WEATHER_API_KEY, // or your key directly
+                key: process.env.NEXT_PUBLIC_WEATHER_API_KEY,
                 q: city,
               },
             })

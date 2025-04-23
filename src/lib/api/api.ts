@@ -3,25 +3,18 @@ import { searchSchema, SearchResult } from "../schema/searchSchema";
 import { forecastSchema, ForecastWeather } from "../schema/forecastSchema";
 import { currentSchema, CurrentWeather } from "../schema/currentSchema";
 
-const BASE_URL = "http://api.weatherapi.com/v1/";
+const BASE_URL = "https://api.weatherapi.com/v1"; // changed to https
+
 const API_KEY = process.env.NEXT_PUBLIC_WEATHER_API_KEY;
 
-const weatherClient = axios.create({
-  baseURL: BASE_URL,
-  params: {
-    key: API_KEY,
-  },
-});
-
-export const searchAPI = async (
-  location: string,
-): Promise<SearchResult> => {
-  const q = `${location}`;
-
+export const searchAPI = async (location: string): Promise<SearchResult> => {
   if (!location.trim()) throw new Error("Location cannot be empty");
 
-  const response = await weatherClient.get("search.json", {
-    params: { q },
+  const response = await axios.get(`${BASE_URL}/search.json`, {
+    params: {
+      key: API_KEY,
+      q: location,
+    },
   });
 
   return searchSchema.parse(response.data);
@@ -33,8 +26,11 @@ export const currentAPI = async (
 ): Promise<CurrentWeather> => {
   const q = `${location},${country}`;
 
-  const response = await weatherClient.get("current.json", {
-    params: { q },
+  const response = await axios.get(`${BASE_URL}/current.json`, {
+    params: {
+      key: API_KEY,
+      q,
+    },
   });
 
   return currentSchema.parse(response.data);
@@ -42,12 +38,15 @@ export const currentAPI = async (
 
 export const forecastAPI = async (
   location: string,
-  region: string,
+  region: string
 ): Promise<ForecastWeather> => {
   const q = `${location},${region}`;
 
-  const response = await weatherClient.get("forecast.json", {
-    params: { q, dt: location },
+  const response = await axios.get(`${BASE_URL}/forecast.json`, {
+    params: {
+      key: API_KEY,
+      q,
+    },
   });
 
   return forecastSchema.parse(response.data);
