@@ -3,8 +3,6 @@ import React from "react";
 import { useDebounce } from "../hooks/debounce";
 import { useSelector } from "react-redux";
 import { RootState } from "../../store";
-import Image from "next/image";
-
 
 interface WeatherAPIResponse {
   current: {
@@ -93,7 +91,7 @@ export function Icon({ icon }: Props) {
 
   return (
     <div>
-      <Image src={iconUrl} alt="Weather Icon" width={165} height={165} />
+      <img src={iconUrl} alt="Weather Icon" width={165} height={165} />
     </div>
   );
 }

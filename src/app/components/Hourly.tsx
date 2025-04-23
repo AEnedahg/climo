@@ -4,7 +4,6 @@ import { useDebounce } from "../hooks/debounce";
 import { useSelector } from "react-redux";
 import { RootState } from "../../store";
 import Astro from "./Astro";
-import Image from 'next/image';
 
 interface HourlyResponse {
   location: {
@@ -103,7 +102,7 @@ function Hourly() {
               hour12: true,
             })}
           </p>
-          <Image src={`https://${hour.condition.icon}`} alt={hour.condition.text} width={50} height={50}/>
+          <img src={`https://${hour.condition.icon}`} alt={hour.condition.text} width={50} height={50}/>
           <p className="text-xl text-white">{hour.temp_c}°</p>
         </div>
       ))}

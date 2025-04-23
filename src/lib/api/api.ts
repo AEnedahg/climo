@@ -3,7 +3,7 @@ import { searchSchema, SearchResult } from "../schema/searchSchema";
 import { forecastSchema, ForecastWeather } from "../schema/forecastSchema";
 import { currentSchema, CurrentWeather } from "../schema/currentSchema";
 
-const BASE_URL = "https://api.weatherapi.com/v1"; // changed to https
+const BASE_URL = "https://api.weatherapi.com/v1";
 
 const API_KEY = process.env.NEXT_PUBLIC_WEATHER_API_KEY;
 
