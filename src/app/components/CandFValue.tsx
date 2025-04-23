@@ -87,10 +87,11 @@ interface Props {
 }
 
 export function Icon({ icon }: Props) {
+  const iconUrl = icon?.startsWith("http") ? icon : `https:${icon}`;
 
   return (
     <div>
-      <img src={icon} alt="Weather Icon" width={165} height={165} />
+      <img src={iconUrl} alt="Weather Icon" width={165} height={165} />
     </div>
   );
 }
