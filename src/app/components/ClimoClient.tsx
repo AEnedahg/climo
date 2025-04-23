@@ -77,6 +77,7 @@ export default function ClimoClient() {
         <div className="mt-4 lg:mt-16 col-span-12 lg:col-span-7 bg-[#0E1421] rounded-lg p-4 flex flex-col items-center">
           <header className="flex justify-between w-full">
             <CityName />
+            <Icon icon={weatherData?.current.condition.icon}/>
             <CandF />
           </header>
           <div className="flex flex-col sm:flex-row sm:justify-between w-full items-center sm:items-start text-center sm:text-start">

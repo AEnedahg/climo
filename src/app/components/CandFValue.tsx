@@ -83,15 +83,14 @@ export const FeelsLike: React.FC<FeelsLikeProps> = ({
 };
 
 interface Props {
-  icon: string;
+  icon: string | undefined;
 }
 
 export function Icon({ icon }: Props) {
-  const iconUrl = icon.startsWith("http") ? icon : `https:${icon}`;
 
   return (
     <div>
-      <img src={iconUrl} alt="Weather Icon" width={165} height={165} />
+      <img src={icon} alt="Weather Icon" width={165} height={165} />
     </div>
   );
 }
